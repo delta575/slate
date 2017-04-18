@@ -33,7 +33,7 @@ OpenSSL::HMAC.hexdigest('sha384', key_secret, string_a_firmar)
         else:
             string = method + ' ' + route + ' ' + nonce
 
-        h = hmac.new(key=self.SECRET.encode('utf-8'),
+         h = hmac.new(key=self.SECRET.encode('utf-8'),
                      msg=string.encode('utf-8'),
                      digestmod=hashlib.sha384)
 
@@ -71,9 +71,11 @@ El nonce debe ser un número entero que debe siempre cumplir con la condición d
 
 ### 2. Preparar el string a firmar con el siguiente contenido:
 En caso de GET:
+
 `GET {ruta} {nonce}`
 
-En caso de POST o PUT
+En caso de POST o PUT:
+
 `{POST|PUT} {ruta} {base64_encoded_body} {nonce}`
 
 Donde:
