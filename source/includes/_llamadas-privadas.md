@@ -1,94 +1,51 @@
 # Llamadas Privadas
 
-## Account Info
-
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.get
-```
+## Información de la cuenta
 
 ```python
 from surbtc import SURBTC
 
 surbtc = SURBTC(api_key,api_secret,test)
-surbtc.info()
-```
-
-```shell
-curl "http://example.com/api/kittens"
-  -H "Authorization: meowmeowmeow"
-```
-
-```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-let kittens = api.kittens.get();
+surbtc.account_info()
 ```
 
 > The above command returns JSON structured like this:
 
 ```json
-[
-  {
-    "id": 1,
-    "name": "Fluffums",
-    "breed": "calico",
-    "fluffiness": 6,
-    "cuteness": 7
-  },
-  {
-    "id": 2,
-    "name": "Max",
-    "breed": "unknown",
-    "fluffiness": 5,
-    "cuteness": 10
-  }
-]
+{
+  "id": 548,
+  "level_id": 3
+  "volume_30d": 22584.25
+}
 ```
 
-This endpoint retrieves all kittens.
+Información de la cuenta
 
 ### HTTP Request
 
 `GET http://example.com/api/kittens`
 
-### URL Parameters
+### Path Parameters
 
 Parameter | Description
 --------- | -----------
-market_id | La ID del mercado (Ej: 'btc-clp', 'btc-cop')
-
-### Query Parameters
-
-Parameter | Default | Description
---------- | ------- | -----------
-include_cats | false | If set to true, the result will also include cats.
-available | true | If set to false, the result will include kittens that have already been adopted
+user_id | La ID del usuario
 
 ### Response Details
 
 Key | Type | Description
 --------- | --------- | ---------
-asks | [amount, price] | Arreglo de ordenes del libro de ventas
-bids | [amount, price] | Arreglo de ordenes del libro de compras
+id | [int] | id de la cuenta
+level_id | [string] | Nivel de verificación de la cuenta
+volume_30d | [amount] | Volumen transado en los ultimos 30 días
 
 
 <aside class="success">
-Remember — a happy kitten is an authenticated kitten!
+Idea de endpoint
 </aside>
 
 
-## Account Balance
-
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.get
-```
+## Balances
 
 ```python
 from surbtc import SURBTC
@@ -97,31 +54,36 @@ surbtc = SURBTC(api_key,api_secret,test)
 surbtc.balance()
 ```
 
-```shell
-curl "http://example.com/api/kittens"
-  -H "Authorization: meowmeowmeow"
-```
-
-```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-let kittens = api.kittens.get();
-```
-
 > The above command returns JSON structured like this:
 
 ```json
 {
-  "balance": {
-    "id": "CLP",
-    "amount": ["1000000.0","CLP"],
-    "available_amount": ["800000.0","CLP"],
-    "frozen_amount": ["100000.0","CLP"],
-    "pending_withdraw_amount": ["100000.0","CLP"],
-    "created_at": "2017-04-11 17:11:20 +0000",
-    "updated_at": "2017-04-11 17:11:20 +0000"
-  }
+  "balances": [
+    {
+      "account_id": 358,
+      "amount": ["25.77442722", "BTC"],
+      "available_amount": ["11.52442722", "BTC"],
+      "frozen_amount": ["10.0", "BTC"],
+      "id": "BTC",
+      "pending_withdraw_amount": ["4.25", "BTC"]
+    },
+    {
+      "account_id": 358,
+      "amount": ["33088710.56", "CLP"],
+      "available_amount": ["24197707.52", "CLP"],
+      "frozen_amount": ["7000000.04", "CLP"],
+      "id": "CLP",
+      "pending_withdraw_amount": ["1891003.0", "CLP"]
+    },
+    {
+      "account_id": 358,
+      "amount": ["11354811.23", "COP"],
+      "available_amount": ["11354811.23", "COP"],
+      "frozen_amount": ["0.0", "COP"],
+      "id": "COP",
+      "pending_withdraw_amount": ["0.0", "COP"]
+    }
+  ]
 }
 ```
 
@@ -133,11 +95,11 @@ Muestra los balances de tu cuenta
 
 `GET /balances/<currency>`
 
-### URL Parameters
+### Path Parameters
 
 Parameter | Description
 --------- | -----------
-currency | *Opcional - El acrónimo de la mondea (Ej: 'btc', 'clp', 'cop')
+currency | *Opcional - El acrónimo de la mondea (Ej: "btc", "clp", "cop")
 
 ### Query Parameters
 
@@ -160,78 +122,80 @@ created_at | [time] | Fecha de creación
 updated_at | [time] | Fecha de la última actualización
 
 <aside class="success">
-Remember — a happy kitten is an authenticated kitten!
+Recuerda — Sólo el balance disponible sirve para crear nuevas órdenes
 </aside>
 
-## My Orders
-
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.get
-```
+## Mis Órdenes
 
 ```python
 from surbtc import SURBTC
 
 surbtc = SURBTC(api_key,api_secret,test)
-surbtc.orders('btc-clp')
-```
-
-```shell
-curl "http://example.com/api/kittens"
-  -H "Authorization: meowmeowmeow"
-```
-
-```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-let kittens = api.kittens.get();
+surbtc.orders("btc-clp")
 ```
 
 > The above command returns JSON structured like this:
 
 ```json
 {
-  "orders": [
+  "meta": {
+    "current_page": 1,
+    "total_count": 42899,
+    "total_pages": 14300
+  },
+    "orders": [
     {
-      "id": 1,
-      "type": "Bid",
+      "account_id": 358,
+      "amount": ["0.8317892", "BTC"],
+      "created_at": "2017-04-18T16:09:38.089Z",
+      "fee_currency": "CLP",
+      "id": 620195,
+      "limit": ["838305.78", "CLP"],
+      "market_id": 1,
+      "original_amount": ["0.8317892", "BTC"],
+      "paid_fee": ["0.0", "CLP"],
       "price_type": "limit",
-      "fee_currency": "BTC",
-      "limit": ["230000","CLP"],
-      "amount": ["0.4","BTC"],
-      "original_amount": ["1.0","BTC"],
-      "traded_amount": ["0.6","BTC"],
-      "paid_fee": ["0.004","BTC"],
-      "total_exchanged": ["130000","CLP"],
       "state": "pending",
-      "created_at": "2017-04-11 17:11:20 +0000",
-      "updated_at": "2017-04-11 17:11:20 +0000"
+      "total_exchanged": ["0.0", "CLP"],
+      "traded_amount": ["0.0", "BTC"],
+      "type": "Ask",
+      "weighted_quotation": None
     },
     {
-      "id": 2,
-      "type": "Bid",
+      "account_id": 358,
+      "amount": ["1.4527277", "BTC"],
+      "created_at": "2017-04-18T16:09:36.766Z",
+      "fee_currency": "CLP",
+      "id": 620194,
+      "limit": ["838000.57", "CLP"],
+      "market_id": 1,
+      "original_amount": ["1.4527277", "BTC"],
+      "paid_fee": ["0.0", "CLP"],
       "price_type": "limit",
-      "fee_currency": "BTC",
-      "limit": ["230000","CLP"],
-      "amount": ["0.4","BTC"],
-      "original_amount": ["1.0","BTC"],
-      "traded_amount": ["0.6","BTC"],
-      "paid_fee": ["0.004","BTC"],
-      "total_exchanged": ["130000","CLP"],
       "state": "pending",
-      "created_at": "2017-04-11 17:11:20 +0000",
-      "updated_at": "2017-04-11 17:11:20 +0000"
+      "total_exchanged": ["0.0", "CLP"],
+      "traded_amount": ["0.0", "BTC"],
+      "type": "Ask",
+      "weighted_quotation": None
+    },
+    {
+      "account_id": 358,
+      "amount": ["1.40988433", "BTC"],
+      "created_at": "2017-04-18T16:09:35.498Z",
+      "fee_currency": "CLP",
+      "id": 620193,
+      "limit": ["837858.51", "CLP"],
+      "market_id": 1,
+      "original_amount": ["1.40988433", "BTC"],
+      "paid_fee": ["0.0", "CLP"],
+      "price_type": "limit",
+      "state": "pending",
+      "total_exchanged": ["0.0", "CLP"],
+      "traded_amount": ["0.0", "BTC"],
+      "type": "Ask",
+      "weighted_quotation": None
     }
-  ],
-  "meta": {
-    "total_pages": 1,
-    "total_count": 2,
-    "current_page": 1
-  }
+  ]
 }
 ```
 
@@ -251,11 +215,11 @@ canceled | La orden fue cancelada y el monto no transado está nuevamente dispon
 
 `GET /markets/<market_id>/orders`
 
-### URL Parameters
+### Path Parameters
 
 Parameter | Description
 --------- | -----------
-market_id | La ID del mercado (Ej: 'btc-clp', 'btc-cop')
+market_id | La ID del mercado (Ej: "btc-clp", "btc-cop")
 
 ### Query Parameters
 
@@ -271,9 +235,9 @@ minimun_exchanged | None | Minimo transado por la orden
 Key | Type | Description
 --------- | --------- | ---------
 id | [int] | ID de la orden
-type | [string] | Dirección de la orden (Ej: 'Bid', 'Ask')
-price_type | [string] | Tipo de orden (Ej: 'limit', 'market')
-fee_currency | [currency] | Moneda en la cual es cobrada la tarifa (Ej: 'BTC', 'CLP' ,'COP')
+type | [string] | Dirección de la orden (Ej: "Bid", "Ask")
+price_type | [string] | Tipo de orden (Ej: "limit", "market")
+fee_currency | [currency] | Moneda en la cual es cobrada la tarifa (Ej: "BTC", "CLP" ,"COP")
 limit | [amount_string, currency] | Precio de la orden
 amount | [amount_string, currency] | Volumen pendiente de la orden
 original_amount | [amount_string, currency] | Volumen original de la orden
@@ -284,11 +248,7 @@ total_pages | [int] | Cantidad total de páginas
 total_count | [int] | Cantidad total de órdenes
 current_page | [int] | Página actual
 
-<aside class="success">
-Remember — a happy kitten is an authenticated kitten!
-</aside>
-
-## New Order
+## Nueva Orden
 
 > Example Payload:
 
@@ -305,30 +265,11 @@ Remember — a happy kitten is an authenticated kitten!
 
 > Example Code:
 
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.get
-```
-
 ```python
 from surbtc import SURBTC
 
 surbtc = SURBTC(api_key,api_secret,test)
-surbtc.orders('btc-clp')
-```
-
-```shell
-curl "http://example.com/api/kittens"
-  -H "Authorization: meowmeowmeow"
-```
-
-```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-let kittens = api.kittens.get();
+surbtc.new_order("btc-clp", "bid", 0.05, 835875.00, "limit")
 ```
 
 > The above command returns JSON structured like this:
@@ -336,19 +277,21 @@ let kittens = api.kittens.get();
 ```json
 {
   "order": {
-    "id": 3,
-    "type": "Bid",
-    "price_type": "limit",
+    "account_id": 358,
+    "amount": ["0.05", "BTC"],
+    "created_at": "2017-04-18T19:54:24.611Z",
     "fee_currency": "BTC",
-    "limit": ["230000","CLP"],
-    "amount": ["0.5","BTC"],
-    "original_amount": ["0.5","BTC"],
-    "traded_amount": ["0.0","BTC"],
-    "paid_fee": ["0.00","BTC"],
-    "total_exchanged": ["0.0","CLP"],
+    "id": 620196,
+    "limit": ["835875.00", "CLP"]
+    "market_id": 1,
+    "original_amount": ["0.05", "BTC"],
+    "paid_fee": ["0.0", "BTC"],
+    "price_type": "limit",
     "state": "received",
-    "created_at": "2017-04-11 20:21:39 +0000",
-    "updated_at": "2017-04-11 20:21:39 +0000"
+    "total_exchanged": ["0.0", "CLP"],
+    "traded_amount": ["0.0", "BTC"],
+    "type": "Bid",
+    "weighted_quotation": None
   }
 }
 ```
@@ -359,18 +302,18 @@ Crea una nueva orden
 
 `POST /markets/<market_id>/orders`
 
-### URL Parameters
+### Path Parameters
 
 Parameter | Description
 --------- | -----------
-market_id | La ID del mercado (Ej: 'btc-clp', 'btc-cop')
+market_id | La ID del mercado (Ej: "btc-clp", "btc-cop")
 
 ### Request Payload
 
 Key | Required | Description
 --------- | ------- | -----------
-type | Yes | Dirección de la orden (Ej: 'Bid', 'Ask')
-price_type | Yes | Tipo de orden (Ej: 'limit', 'market')
+type | Yes | Dirección de la orden (Ej: "Bid", "Ask")
+price_type | Yes | Tipo de orden (Ej: "limit", "market")
 limit | Limit | Precio de la orden
 amount | Yes | Volumen de la orden
 
@@ -379,9 +322,9 @@ amount | Yes | Volumen de la orden
 Key | Type | Description
 --------- | --------- | ---------
 id | [int] | ID de la orden
-type | [string] | Dirección de la orden (Ej: 'Bid', 'Ask')
-price_type | [string] | Tipo de orden (Ej: 'limit', 'market')
-fee_currency | [currency] | Moneda en la cual es cobrada la tarifa (Ej: 'BTC', 'CLP' ,'COP')
+type | [string] | Dirección de la orden (Ej: "Bid", "Ask")
+price_type | [string] | Tipo de orden (Ej: "limit", "market")
+fee_currency | [currency] | Moneda en la cual es cobrada la tarifa (Ej: "BTC", "CLP" ,"COP")
 limit | [amount_string, currency] | Precio de la orden
 amount | [amount_string, currency] | Volumen pendiente de la orden
 original_amount | [amount_string, currency] | Volumen original de la orden
@@ -392,11 +335,11 @@ total_pages | [int] | Cantidad total de páginas
 total_count | [int] | Cantidad total de órdenes
 current_page | [int] | Página actual
 
-<aside class="success">
-Remember — a happy kitten is an authenticated kitten!
+<aside class="warning">
+Advertencia — Asegurate de revisar bien tus cálculos antes de crear órdenes vía API!
 </aside>
 
-## Cancel Order
+## Cancelar Orden
 
 > Example Payload:
 
@@ -407,13 +350,6 @@ Remember — a happy kitten is an authenticated kitten!
 ```
 
 > Example Code:
-
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.get
-```
 
 ```python
 from surbtc import SURBTC
@@ -424,47 +360,37 @@ surbtc = SURBTC(api_key,api_secret,test)
 surbtc.cancel_order(order_id)
 ```
 
-```shell
-curl "http://example.com/api/kittens"
-  -H "Authorization: meowmeowmeow"
-```
-
-```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-let kittens = api.kittens.get();
-```
-
 > The above command returns JSON structured like this:
 
 ```json
 {
   "order": {
-    "id": 3,
-    "type": "Bid",
+    "account_id": 548,
+    "amount": ["0.8317892", "BTC"],
+    "created_at": "2017-04-18T16:09:38.089Z",
+    "fee_currency": "CLP",
+    "id": 620195,
+    "limit": ["838305.78", "CLP"],
+    "market_id": 1,
+    "original_amount": ["0.8317892", "BTC"],
+    "paid_fee": ["0.0", "CLP"],
     "price_type": "limit",
-    "fee_currency": "BTC",
-    "limit": ["230000","CLP"],
-    "amount": ["0.5","BTC"],
-    "original_amount": ["0.5","BTC"],
-    "traded_amount": ["0.0","BTC"],
-    "paid_fee": ["0.00","BTC"],
-    "total_exchanged": ["0.0","CLP"],
     "state": "canceling",
-    "created_at": "2017-04-11 20:21:39 +0000",
-    "updated_at": "2017-04-11 22:20:19 +0000"
+    "total_exchanged": ["0.0", "CLP"],
+    "traded_amount": ["0.0", "BTC"],
+    "type": "Ask",
+    "weighted_quotation": None
   }
 }
 ```
 
-Permite comenzar la cancelación de una orden. No se puede realizar ningún otro cambio con este endpoint
+Permite comenzar la cancelación de una orden. No se puede realizar ningún otro cambio con este endpoint.
 
 ### HTTP Request
 
 `PUT /orders/<id>`
 
-### URL Parameters
+### Path Parameters
 
 Parameter | Description
 --------- | -----------
@@ -474,16 +400,16 @@ id | La ID de la orden a cancelar
 
 Key | Required | Description
 --------- | ------- | -----------
-state | Yes | Debe indicar 'canceling'
+state | Yes | Debe indicar "canceling"
 
 ### Response Details (JSON)
 
 Key | Type | Description
 --------- | --------- | ---------
 id | [int] | ID de la orden
-type | [string] | Dirección de la orden (Ej: 'Bid', 'Ask')
-price_type | [string] | Tipo de orden (Ej: 'limit', 'market')
-fee_currency | [currency] | Moneda en la cual es cobrada la tarifa (Ej: 'BTC', 'CLP' ,'COP')
+type | [string] | Dirección de la orden (Ej: "Bid", "Ask")
+price_type | [string] | Tipo de orden (Ej: "limit", "market")
+fee_currency | [currency] | Moneda en la cual es cobrada la tarifa (Ej: "BTC", "CLP" ,"COP")
 limit | [amount_string, currency] | Precio de la orden
 amount | [amount_string, currency] | Volumen pendiente de la orden
 original_amount | [amount_string, currency] | Volumen original de la orden
@@ -495,39 +421,19 @@ total_count | [int] | Cantidad total de órdenes
 current_page | [int] | Página actual
 
 <aside class="success">
-Remember — a happy kitten is an authenticated kitten!
+Recuerde — identifique bien la Id de la orden a cancelar con las llamadas de Mis Órdenes
 </aside>
 
-## Order Status
+## Estado de la orden
 
 > Example Code:
-
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.get
-```
-
 ```python
 from surbtc import SURBTC
 
 order_id = 3
 
 surbtc = SURBTC(api_key,api_secret,test)
-surbtc.order_satus(order_id)
-```
-
-```shell
-curl "http://example.com/api/kittens"
-  -H "Authorization: meowmeowmeow"
-```
-
-```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-let kittens = api.kittens.get();
+surbtc.single_order(order_id)
 ```
 
 > The above command returns JSON structured like this:
@@ -535,21 +441,24 @@ let kittens = api.kittens.get();
 ```json
 {
   "order": {
-    "id": 3,
-    "type": "Bid",
-    "price_type": "limit",
-    "fee_currency": "BTC",
-    "limit": ["230000","CLP"],
-    "amount": ["0.5","BTC"],
-    "original_amount": ["0.5","BTC"],
-    "traded_amount": ["0.0","BTC"],
-    "paid_fee": ["0.00","BTC"],
-    "total_exchanged": ["0.0","CLP"],
-    "state": "cancelled",
-    "created_at": "2017-04-11 20:21:39 +0000",
-    "updated_at": "2017-04-11 22:20:19 +0000"
-  }
+            "account_id": 548,
+            "amount": ["0.8317892", "BTC"],
+            "created_at": "2017-04-18T16:09:38.089Z",
+            "fee_currency": "CLP",
+            "id": 620195,
+            "limit": ["838305.78", "CLP"],
+            "market_id": 1,
+            "original_amount": ["0.8317892", "BTC"],
+            "paid_fee": ["0.0", "CLP"],
+            "price_type": "limit",
+            "state": "canceled",
+            "total_exchanged": ["0.0", "CLP"],
+            "traded_amount": ["0.0", "BTC"],
+            "type": "Ask",
+            "weighted_quotation": None
+            }
 }
+
 ```
 
 Permite ver los detalles del estado actualde una orden
@@ -558,7 +467,7 @@ Permite ver los detalles del estado actualde una orden
 
 `GET /orders/<id>`
 
-### URL Parameters
+### Path Parameters
 
 Parameter | Description
 --------- | -----------
@@ -569,9 +478,9 @@ id | La ID de la orden a consultar
 Key | Type | Description
 --------- | --------- | ---------
 id | [int] | ID de la orden
-type | [string] | Dirección de la orden (Ej: 'Bid', 'Ask')
-price_type | [string] | Tipo de orden (Ej: 'limit', 'market')
-fee_currency | [currency] | Moneda en la cual es cobrada la tarifa (Ej: 'BTC', 'CLP' ,'COP')
+type | [string] | Dirección de la orden (Ej: "Bid", "Ask")
+price_type | [string] | Tipo de orden (Ej: "limit", "market")
+fee_currency | [currency] | Moneda en la cual es cobrada la tarifa (Ej: "BTC", "CLP" ,"COP")
 limit | [amount_string, currency] | Precio de la orden
 amount | [amount_string, currency] | Volumen pendiente de la orden
 original_amount | [amount_string, currency] | Volumen original de la orden
@@ -582,11 +491,8 @@ total_pages | [int] | Cantidad total de páginas
 total_count | [int] | Cantidad total de órdenes
 current_page | [int] | Página actual
 
-<aside class="success">
-Remember — a happy kitten is an authenticated kitten!
-</aside>
 
-## Deposit-Withdrawal History
+## Historial de depositos/retiros
 
 > Example Payload:
 
@@ -599,9 +505,9 @@ Remember — a happy kitten is an authenticated kitten!
 > Example Code:
 
 ```ruby
-require 'kittn'
+require "kittn"
 
-api = Kittn::APIClient.authorize!('meowmeowmeow')
+api = Kittn::APIClient.authorize!("meowmeowmeow")
 api.kittens.get
 ```
 
@@ -609,8 +515,8 @@ api.kittens.get
 from surbtc import SURBTC
 
 surbtc = SURBTC(api_key,api_secret,test)
-surbtc.deposit_history('BTC')
-surbtc.withdrawal_history('BTC')
+surbtc.deposit_history("BTC")
+surbtc.withdrawal_history("BTC")
 ```
 
 ```shell
@@ -619,9 +525,9 @@ curl "http://example.com/api/kittens"
 ```
 
 ```javascript
-const kittn = require('kittn');
+const kittn = require("kittn");
 
-let api = kittn.authorize('meowmeowmeow');
+let api = kittn.authorize("meowmeowmeow");
 let kittens = api.kittens.get();
 ```
 
@@ -709,7 +615,7 @@ retained | El depósito ha sido retenido, posiblemente por alguna violación a l
 `GET /currencies/<currency_code>/withdrawals`
 
 
-### URL Parameters
+### Path Parameters
 
 Parameter | Description
 --------- | -----------
@@ -724,18 +630,15 @@ created_at | [time] | Fecha de creación de la solicitud
 updated_at | [time] | Fecha del último update de la solicitud
 amount | [amount_string, currency] | Cantidad asociada al depósito/retiro
 currency | [currency] | Moneda asociada al depósito/retiro
-state | [string] | Estado de la solicitud (Ej: 'confirmed', 'rejected')
+state | [string] | Estado de la solicitud (Ej: "confirmed", "rejected")
 deposit_data | [array] | Arreglo con detalles depentientes del tipo de consulta
-type | [string] | Tipo de data entregada (Ej: 'bitcoin_deposit_data','fiat_withdrawal_data')
+type | [string] | Tipo de data entregada (Ej: "bitcoin_deposit_data","fiat_withdrawal_data")
 address | [address] | Dirección del abono
 target_address | [address] | Dirección de destino del retiro
 transaction_hash | [string] | ID de la transacción
 
-<aside class="success">
-Remember — a happy kitten is an authenticated kitten!
-</aside>
 
-## New Withdrawal
+## Nuevo Retiro
 
 > Example Payload:
 
@@ -753,33 +656,14 @@ Remember — a happy kitten is an authenticated kitten!
 
 > Example Code:
 
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.get
-```
-
 ```python
 from surbtc import SURBTC
 
-target_address = 'mo366JJaDU5B1hmnPygyjQVMbUKnBC7DsY'
+target_address = "mo366JJaDU5B1hmnPygyjQVMbUKnBC7DsY"
 withdrawal_amount = 2.5
 
 surbtc = SURBTC(api_key,api_secret,test)
-surbtc.withdraw('BTC',target_address,withdrawal_amount)
-```
-
-```shell
-curl "http://example.com/api/kittens"
-  -H "Authorization: meowmeowmeow"
-```
-
-```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-let kittens = api.kittens.get();
+surbtc.withdraw("BTC",target_address,withdrawal_amount)
 ```
 
 > The above command returns JSON structured like this:
@@ -800,7 +684,7 @@ Genera una solicitud de retiro para el monto y moneda seleccionadas
 
 `POST /currencies/<currency_code>/withdrawals`
 
-### URL Parameters
+### Path Parameters
 
 Parameter | Description
 --------- | -----------
@@ -814,11 +698,8 @@ id | [int] | ID del retiro
 created_at | [time] | Fecha de creación de la solicitud
 updated_at | [time] | Fecha del último update de la solicitud
 
-<aside class="success">
-Remember — a happy kitten is an authenticated kitten!
-</aside>
 
-## New Fiat Deposit
+## Depósito dinero fiat
 
 > Example Payload:
 
@@ -832,33 +713,14 @@ Remember — a happy kitten is an authenticated kitten!
 
 > Example Code:
 
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.get
-```
-
 ```python
 from surbtc import SURBTC
 
-currency = 'CLP'
-amount = ['250000.00','CLP']
+currency = "CLP"
+amount = ["250000.00","CLP"]
 
 surbtc = SURBTC(api_key,api_secret,test)
 surbtc.new_fiat_deposit(currency,amount)
-```
-
-```shell
-curl "http://example.com/api/kittens"
-  -H "Authorization: meowmeowmeow"
-```
-
-```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-let kittens = api.kittens.get();
 ```
 
 > The above command returns JSON structured like this:
@@ -879,8 +741,9 @@ let kittens = api.kittens.get();
 ```
 
 Genera una nueva notificación de depósito
-
-***Atención:*** Este endpoint solo permite crear depósitos Fiat, para depositos de BTC referirse a la sección de [New Crypto Deposit](./#new-crypto-deposit)
+<aside class="notice">
+***Atención:*** Este endpoint solo permite crear depósitos Fiat, para depositos de BTC referirse a la sección de [Depósito de Criptomonedas](./#dep-sito-criptomonedas)
+</aside>
 
 El proceso de depósito de un monto en Fiat tiene 2 etapas:
 
@@ -906,14 +769,14 @@ created_at | [time] | Fecha de creación de la solicitud
 updated_at | [time] | Fecha del último update de la solicitud
 amount | [amount_string, currency] | Cantidad asociada al depósito
 currency | [currency] | Moneda asociada al depósito
-state | [string] | Estado de la solicitud (Ej: 'confirmed', 'rejected')
+state | [string] | Estado de la solicitud (Ej: "confirmed", "rejected")
 deposit_data | [array] | Arreglo con detalles depentientes del tipo de consulta
 
 <aside class="success">
 Remember — a happy kitten is an authenticated kitten!
 </aside>
 
-## New Crypto Deposit
+## Depósito criptomonedas
 
 > Example Payload:
 
@@ -926,30 +789,11 @@ Remember — a happy kitten is an authenticated kitten!
 
 > Example Code:
 
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.get
-```
-
 ```python
 from surbtc import SURBTC
 
 surbtc = SURBTC(api_key,api_secret,test)
-surbtc.new_crypto_deposit('BTC')
-```
-
-```shell
-curl "http://example.com/api/kittens"
-  -H "Authorization: meowmeowmeow"
-```
-
-```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-let kittens = api.kittens.get();
+surbtc.new_crypto_deposit("BTC")
 ```
 
 > The above command returns JSON structured like this:
@@ -966,7 +810,10 @@ let kittens = api.kittens.get();
 }
 ```
 
-Permite generar una nueva address para abonar cryptomonedas a SURBTC
+Permite generar una nueva address para abonar criptomonedas a SURBTC
+<aside class="notice">
+***Atención:*** Este endpoint solo permite generar direcciones para depositos de BTC, para abonar dinero fiat referirse a la sección de [Depósito dinero fiat](./#dep-sito-dinero-fiat)
+</aside>
 
 ### HTTP Request
 
@@ -987,7 +834,3 @@ created_at | [time] | Fecha de creación
 updated_at | [time] | Fecha del último update
 address | [address] | Dirección asignada para depositar
 used | [bool] | Determina si la address fue usada con anterioridad
-
-<aside class="success">
-Remember — a happy kitten is an authenticated kitten!
-</aside>

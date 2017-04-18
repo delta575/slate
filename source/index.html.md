@@ -2,10 +2,7 @@
 title: SURBTC API Documentation
 
 language_tabs:
-  - shell
-  - ruby
   - python
-  - javascript
 
 toc_footers:
   - <a href='https://www.surbtc.com'>Contacta a Soporte por tu API KEY</a>

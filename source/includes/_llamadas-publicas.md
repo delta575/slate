@@ -2,30 +2,11 @@
 
 ## Ticker
 
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.get
-```
-
 ```python
 from surbtc import SURBTC
 
 surbtc = SURBTC(api_key,api_secret,test)
-surbtc.ticker('btc-clp')
-```
-
-```shell
-curl "http://example.com/api/kittens"
-  -H "Authorization: meowmeowmeow"
-```
-
-```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-let kittens = api.kittens.get();
+surbtc.ticker("btc-clp")
 ```
 
 > The above command returns JSON structured like this:
@@ -33,12 +14,12 @@ let kittens = api.kittens.get();
 ```json
 {
   "ticker": {
-    "last_price": ["276000.0","CLP"],
-    "min_ask": ["278000.0","CLP"],
-    "max_bid": ["276000.0","CLP"],
-    "volume": ["102.0","BTC"],
-    "price_variation_24h": 0.05,
-    "price_variation_7d": 0.1
+    "last_price": ["879789.0","CLP"],
+    "max_bid": ["879658.0","CLP"],
+    "min_ask": ["876531.11","CLP"],
+    "price_variation_24h": 0.005,
+    "price_variation_7d": 0.100,
+    "volume": ["102.0","BTC"]
   }
 }
 ```
@@ -49,11 +30,11 @@ El ticker permite ver el estado actual del mercado. Muestra la mejores ofertas d
 
 `GET /markets/<market_id>/ticker`
 
-### URL Parameters
+### Path Parameters
 
 Parameter | Description
 --------- | -----------
-market_id | La ID del mercado (Ej: 'btc-clp', 'btc-cop')
+market_id | La ID del mercado (Ej: "btc-clp", "btc-cop")
 
 ### Response Details
 
@@ -68,124 +49,39 @@ price_variation_7d | [float] | Cuanto ha variado el precio el los últimos 7 dí
 timestamp * | [time] | Timestamp de la consulta
 
 
-## Stats
-
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.get(2)
-```
-
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-api.kittens.get(2)
-```
-
-```shell
-curl "http://example.com/api/kittens/2"
-  -H "Authorization: meowmeowmeow"
-```
-
-```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-let max = api.kittens.get(2);
-```
-
-> The above command returns JSON structured like this:
-
-```json
-{
-  "id": 2,
-  "name": "Max",
-  "breed": "unknown",
-  "fluffiness": 5,
-  "cuteness": 10
-}
-```
-
-This endpoint retrieves a specific kitten.
-
-<aside class="warning">Inside HTML code blocks like this one, you can't use Markdown, so use <code>&lt;code&gt;</code> blocks to denote code.</aside>
-
-### HTTP Request
-
-`GET /markets/<market_id>/ticker`
-
-### URL Parameters
-
-Parameter | Description
---------- | -----------
-ID | The ID of the kitten to retrieve
-
 ## Order Book
-
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.get(2)
-```
 
 ```python
 from surbtc import SURBTC
 
 surbtc = SURBTC(api_key,api_secret,test)
-surbtc.order_book('btc-clp')
-```
-
-```shell
-curl "http://example.com/api/kittens/2"
-  -H "Authorization: meowmeowmeow"
-```
-
-```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-let max = api.kittens.get(2);
+surbtc.order_book("btc-clp")
 ```
 
 > The above command returns JSON structured like this:
 
 ```json
 {
-  "asks": [
-    [
-      "1.0",
-      "200000.0"
-    ],
-    [
-      "1.2",
-      "201000.0"
-    ],
-    [
-      "0.01",
-      "202500.0"
-    ],
-    [
-      "1.0",
-      "210000.0"
-    ]
-  ],
-  "bids": [
-    [
-      "0.5",
-      "190000.0"
-    ],
-    [
-      "0.01",
-      "189000.0"
-    ],
-    [
-      "1.0",
-      "188900.0"
-    ]
-  ]
+  "order_book": {"asks": [ ["836677.14", "0.447349"],
+                           ["837462.23", "1.43804963"],
+                           ["837571.89", "1.41498541"],
+                           ["837597.23", "0.13177617"],
+                           ["837753.25", "1.40724154"],
+                           ["837858.51", "1.40988433"],
+                           ["837937.0", "1.46619702"],
+                           ["838000.57", "1.4527277"],
+                           ["838305.78", "0.8317892"]
+                         ],
+                 "bids": [ ["821580.0", "0.25667389"],
+                           ["821211.0", "0.27827307"],
+                           ["819882.39", "1.40003128"],
+                           ["819622.99", "1.40668862"],
+                           ["819489.9", "1.41736995"],
+                           ["818942.2", "1.41001753"],
+                           ["818820.29", "0.93677863"],
+                           ["816879.83", "1.44022295"]
+                          ]
+  }
 }
 ```
 
@@ -195,11 +91,11 @@ Obtén el libro de órdenes completo
 
 `GET /markets/<market_id>/order_book`
 
-### URL Parameters
+### Path Parameters
 
 Parameter | Description
 --------- | -----------
-market_id | La ID del mercado (Ej: 'btc-clp', 'btc-cop')
+market_id | La ID del mercado (Ej: "btc-clp", "btc-cop")
 
 ### Response Details
 
@@ -211,80 +107,46 @@ bids | [amount, price] | Arreglo de ordenes del libro de compras
 
 ## Trades
 
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.get(2)
-```
-
 ```python
-import kittn
+from surbtc import SURBTC
 
-api = kittn.authorize('meowmeowmeow')
-api.kittens.get(2)
-```
-
-```shell
-curl "http://example.com/api/kittens/2"
-  -H "Authorization: meowmeowmeow"
-```
-
-```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-let max = api.kittens.get(2);
+surbtc = SURBTC(api_key,api_secret,test)
+surbtc.trades("btc-clp")
 ```
 
 > The above command returns JSON structured like this:
 
 ```json
 {
-  "asks": [
-    [
-      "1.0",
-      "200000.0"
-    ],
-    [
-      "1.2",
-      "201000.0"
-    ],
-    [
-      "0.01",
-      "202500.0"
-    ],
-    [
-      "1.0",
-      "210000.0"
-    ]
-  ],
-  "bids": [
-    [
-      "0.5",
-      "190000.0"
-    ],
-    [
-      "0.01",
-      "189000.0"
-    ],
-    [
-      "1.0",
-      "188900.0"
-    ]
-  ]
+  "trades": [ [5689,"12-10-2017 02:58:32","-1.0","855441.15"],
+              [5688,"12-10-2017 02:41:51","1.57698715","865485.0"],
+              [5687,"12-10-2017 02:35:10","1.15486210","835415.0"],
+              [5686,"12-10-2017 02:29:30","-4.0","851458.6"],
+              [5685,"12-10-2017 02:26:24","3.25","865254.65"],
+              [5684,"12-10-2017 02:18:22","-0.01","857054.45"],
+              [5683,"12-10-2017 02:15:25","-1.011","863540.0"],
+              [5682,"12-10-2017 02:08:32","12.55","865000.0"],
+              [5681,"12-10-2017 02:07:45","0.1","852458.0"],
+              [5680,"12-10-2017 02:03:37","1.01578414","845254.4"],
+              [5679,"12-10-2017 01:58:52","1.84565103","852645.42"],
+              [5678,"12-10-2017 01:58:01","-1.0","858687.0"],
+              [5677,"12-10-2017 01:48:47","3.0","864521.0"],
+              [5676,"12-10-2017 01:23:31","1.05","833582.0"],
+              [5675,"12-10-2017 01:18:12","-5.56","836548.0"],
+              [5674,"12-10-2017 01:11:32","-0.0535","835000.0"],
+            ]
 }
 ```
 
 Obten una lista de las transacciones más recientes del mercado indicado
 
-<aside class="warning">Falta documentar</aside>
+<aside class="warning">Falta endpoint</aside>
 
 ### HTTP Request
 
 `GET http://example.com/kittens/<ID>`
 
-### URL Parameters
+### Path Parameters
 
 Parameter | Description
 --------- | -----------
@@ -294,17 +156,10 @@ ID | The ID of the kitten to retrieve
 
 Key | Type | Description
 --------- | --------- | ---------
-asks | [amount, price] | Arreglo de ordenes del libro de ventas
-bids | [amount, price] | Arreglo de ordenes del libro de compras
+trades | [id, timestamp, amount, price] | Arreglo de transacciones
+
 
 ## Markets
-
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.get(2)
-```
 
 ```python
 from surbtc import SURBTC
@@ -313,40 +168,31 @@ surbtc = SURBTC(api_key,api_secret,test)
 surbtc.markets()
 ```
 
-```shell
-curl "http://example.com/api/kittens/2"
-  -H "Authorization: meowmeowmeow"
-```
-
-```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-let max = api.kittens.get(2);
-```
-
 > The above command returns JSON structured like this:
 
 ```json
 {
   "markets": [
     {
+      "base_currency": "BTC",
+      "id": "BTC-CLP",
+      "minimum_order_amount": ["0.001", "BTC"],
       "name": "btc-clp",
-      "base_currency": "btc",
-      "quote_currency": "clp"
+      "quote_currency": "CLP"
     },
     {
+      "base_currency": "BTC",
+      "id": "BTC-COP",
+      "minimum_order_amount": ["0.001", "BTC"],
       "name": "btc-cop",
-      "base_currency": "btc",
-      "quote_currency": "cop"
+      "quote_currency": "COP"
     }
   ]
 }
+
 ```
 
 Un mercado permite separar las compras y ventas por moneda. En un mercado se compra y vende un tipo de moneda (base_currency) y se usa otro tipo de moneda para pagar por estas compras y ventas (quote_currency). Un mercado está identificado por estas dos monedas. Por ejemplo, el mercado que actualmente operamos permite vender y comprar bitcoins (BTC) usando pesos chilenos (CLP). Su identificador, por ende, es: btc-clp.
-
-<aside class="warning">Inside HTML code blocks like this one, you can't use Markdown, so use <code>&lt;code&gt;</code> blocks to denote code.</aside>
 
 ### HTTP Request
 
@@ -360,5 +206,3 @@ markets | [array] | Arreglo de mercados disponibles
 name | [market_id] | Nombre del mercado el cual corresponde al market_id
 base_currency | [currency] | Moneda de cambio
 quote_currency | [currency] | Moneda de pago
-
-

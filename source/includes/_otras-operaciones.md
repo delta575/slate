@@ -1,6 +1,6 @@
 # Otras Operaciones
 
-## Search user by id
+## Buscar usuario por Id
 
 > Example Payload:
 
@@ -14,30 +14,11 @@
 
 > Example Code:
 
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.get
-```
-
 ```python
 from surbtc import SURBTC
 
 surbtc = SURBTC(api_key,api_secret,test)
 surbtc.new_crypto_deposit('BTC')
-```
-
-```shell
-curl "http://example.com/api/kittens"
-  -H "Authorization: meowmeowmeow"
-```
-
-```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-let kittens = api.kittens.get();
 ```
 
 > The above command returns JSON structured like this:
@@ -66,11 +47,8 @@ email | [string] | Correo electrónico a buscar
 account_exists | [bool] | Resultado de la busqueda, 'true' si el usuario existe, 'false' si no
 account_id | [int] | Si el usuario existe este campo contiene su id para operaciones
 
-<aside class="success">
-Remember — a happy kitten is an authenticated kitten!
-</aside>
 
-## Create new API Key
+## Crear nueva API Key
 
 > Example Payload:
 
@@ -85,30 +63,11 @@ Remember — a happy kitten is an authenticated kitten!
 
 > Example Code:
 
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.get
-```
-
 ```python
 from surbtc import SURBTC
 
 surbtc = SURBTC(api_key,api_secret,test)
-surbtc.new_crypto_deposit('BTC')
-```
-
-```shell
-curl "http://example.com/api/kittens"
-  -H "Authorization: meowmeowmeow"
-```
-
-```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-let kittens = api.kittens.get();
+surbtc.new_apikey('Mi nueva llave','1235487548.5541')
 ```
 
 > The above command returns JSON structured like this:
@@ -124,7 +83,7 @@ let kittens = api.kittens.get();
 }
 ```
 
-Permite encontrar el id de un usuario necesario para operaciones tales como remesas o traspasos.
+Crea nueva API Key para llamadas autenticadas.
 
 ### HTTP Request
 
@@ -139,6 +98,6 @@ expiration_time | [time] | Fecha de expiración de la clave (opcional)
 id | [string] | Identificador de la clave, necesario para realizar la autenticación
 secret | [string] | Secreto de la clave, necesario para firmar operaciones autenticadas
 
-<aside class="success">
-Remember — a happy kitten is an authenticated kitten!
+<aside class="warning">
+Advertencia — Nunca expongas tus API Keys al público!
 </aside>

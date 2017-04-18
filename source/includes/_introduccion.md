@@ -16,10 +16,6 @@ Python | [https://github.com/delta575/python-surbtc-api](https://github.com/delt
 
 ## Autenticación
 
-```ruby
-OpenSSL::HMAC.hexdigest('sha384', key_secret, string_a_firmar)
-```
-
 ```python
     def _sign_payload(self, method, path, params=None, payload=None):
 
@@ -47,22 +43,9 @@ OpenSSL::HMAC.hexdigest('sha384', key_secret, string_a_firmar)
         }
 ```
 
-```shell
-# With shell, you can just pass the correct header with each request
-curl "api_endpoint_here"
-  -H "Authorization: meowmeowmeow"
-```
-
-```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-```
-> Another set of code.
-
 Para autenticar una llamada [debes contactarnos](http://www.surbtc.com) para obtener una api key.
 
-El api key provisto consistirá en un un key id y un key secret. 
+El api key provisto consistirá en un un key id y un key secret.
 
 SURBTC espera que todas sus llamadas privadas sean autenticadas siguiendo las siguientes instrucciones:
 
@@ -100,5 +83,5 @@ X-SBTC-SIGNATURE  | 5c873eddb1117b930b1caa058ada3f7...
 
 
 <aside class="notice">
-You must replace <code>meowmeowmeow</code> with your personal API key.
+Requisitos — Nivel de verificación Trader
 </aside>
